@@ -1,5 +1,3 @@
-
-
 # wumpus_kb.py
 # ------------
 # Licensing Information:
@@ -587,12 +585,11 @@ def axiom_generator_heading_north_ssa(t):
 
     t := time
     """
-    noMove = '({0} & ({1} | {2} | {3} | {4} | {5}))'.format(state_heading_north_str(t),action_wait_str(t),action_grab_str(t),
-                                                    action_shoot_str(t),percept_bump_str(t+1),action_forward_str(t))
-    left = '({0} & {1})'.format(state_heading_east_str(t),action_turn_left_str(t))
-    right = '({0} & {1})'.format(state_heading_west_str(t),action_turn_right_str(t))
-    axiom_str = '{0} <=> ({1} | {2} | {3})'.format(state_heading_north_str(t+1),noMove,left,right)
-
+    axiom_str = ''
+    axiom_str += state_heading_north_str(t+1) + " <=> (("
+    axiom_str += state_heading_north_str(t) + " & ~" + action_turn_right_str(t) + " & ~" + action_turn_left_str(t) + ") | ("
+    axiom_str += state_heading_east_str(t) + " & " + action_turn_left_str(t) + ") | ("
+    axiom_str += state_heading_west_str(t) + " & " + action_turn_right_str(t) + "))"
     return axiom_str
 
 
@@ -603,12 +600,11 @@ def axiom_generator_heading_east_ssa(t):
 
     t := time
     """
-    noMove = '({0} & ({1} | {2} | {3} | {4} | {5}))'.format(state_heading_east_str(t),action_wait_str(t),action_grab_str(t),
-                                                    action_shoot_str(t),percept_bump_str(t+1),action_forward_str(t))
-    left = '({0} & {1})'.format(state_heading_south_str(t),action_turn_left_str(t))
-    right = '({0} & {1})'.format(state_heading_north_str(t),action_turn_right_str(t))
-    axiom_str = '{0} <=> ({1} | {2} | {3})'.format(state_heading_east_str(t+1),noMove,left,right)
-
+    axiom_str = ''
+    axiom_str += state_heading_east_str(t+1) + " <=> (("
+    axiom_str += state_heading_east_str(t) + " & ~" + action_turn_right_str(t) + " & ~" + action_turn_left_str(t) + ") | ("
+    axiom_str += state_heading_south_str(t) + " & " + action_turn_left_str(t) + ") | ("
+    axiom_str += state_heading_north_str(t) + " & " + action_turn_right_str(t) + "))"
     return axiom_str
 
 
@@ -619,12 +615,11 @@ def axiom_generator_heading_south_ssa(t):
 
     t := time
     """
-    noMove = '({0} & ({1} | {2} | {3} | {4} | {5}))'.format(state_heading_south_str(t),action_wait_str(t),action_grab_str(t),
-                                                    action_shoot_str(t),percept_bump_str(t+1),action_forward_str(t))
-    left = '({0} & {1})'.format(state_heading_west_str(t),action_turn_left_str(t))
-    right = '({0} & {1})'.format(state_heading_east_str(t),action_turn_right_str(t))
-    axiom_str = '{0} <=> ({1} | {2} | {3})'.format(state_heading_south_str(t+1),noMove,left,right)
-
+    axiom_str = ''
+    axiom_str += state_heading_south_str(t+1) + " <=> (("
+    axiom_str += state_heading_south_str(t) + " & ~" + action_turn_right_str(t) + " & ~" + action_turn_left_str(t) + ") | ("
+    axiom_str += state_heading_west_str(t) + " & " + action_turn_left_str(t) + ") | ("
+    axiom_str += state_heading_east_str(t) + " & " + action_turn_right_str(t) + "))"
     return axiom_str
 
 
@@ -635,12 +630,11 @@ def axiom_generator_heading_west_ssa(t):
 
     t := time
     """
-    noMove = '({0} & ({1} | {2} | {3} | {4} | {5}))'.format(state_heading_west_str(t),action_wait_str(t),action_grab_str(t),
-                                                    action_shoot_str(t),percept_bump_str(t+1),action_forward_str(t))
-    left = '({0} & {1})'.format(state_heading_north_str(t),action_turn_left_str(t))
-    right = '({0} & {1})'.format(state_heading_south_str(t),action_turn_right_str(t))
-    axiom_str = '{0} <=> ({1} | {2} | {3})'.format(state_heading_west_str(t+1),noMove,left,right)
-
+    axiom_str = ''
+    axiom_str += state_heading_west_str(t+1) + " <=> (("
+    axiom_str += state_heading_west_str(t) + " & ~" + action_turn_right_str(t) + " & ~" + action_turn_left_str(t) + ") | ("
+    axiom_str += state_heading_north_str(t) + " & " + action_turn_left_str(t) + ") | ("
+    axiom_str += state_heading_south_str(t) + " & " + action_turn_right_str(t) + "))"
     return axiom_str
 
 
@@ -751,5 +745,5 @@ def generate_mutually_exclusive_axioms(t):
 
     return filter(lambda s: s != '', axioms)
 
-# -------------------------------------------------------------------------------
+
 
