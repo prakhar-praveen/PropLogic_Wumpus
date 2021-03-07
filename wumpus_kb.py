@@ -155,7 +155,15 @@ def axiom_generator_percept_sentence(t, tvec):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    propositions = []
+    percepts = ['Stench','Breeze','Glitter','Bump','Scream']
+    for index in range(len(tvec)):
+        if tvec[index]:
+            propositions.append(percepts[index] + str(t))
+        else:
+            propositions.append('~' + percepts[index] + str(t))
+    axiom_str = ' & '.join(propositions)
+    #utils.print_not_implemented()
     return axiom_str
 
 
@@ -171,8 +179,9 @@ def axiom_generator_initial_location_assertions(x, y):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    axiom_str = '(~{0}) & (~{1})'.format(pit_str(x,y),wumpus_str(x,y))
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    #utils.print_not_implemented()
     return axiom_str
 
 def axiom_generator_pits_and_breezes(x, y, xmin, xmax, ymin, ymax):
@@ -187,6 +196,27 @@ def axiom_generator_pits_and_breezes(x, y, xmin, xmax, ymin, ymax):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    pits = []
+    """
+    [x_min,x_curr,x_max] = [x-1,x,x+1]
+    [y_min,y_curr,y_max] = [y-1,y,y+1]
+    
+    axioms = []
+    for x in range(xmin, xmax + 1):
+        for y in range(ymin, ymax + 1):
+            axioms.append(axiom_generator_pits_and_breezes(x, y, xmin, xmax, ymin, ymax))
+    if utils.all_empty_strings(axioms):
+        utils.print_not_implemented('axiom_generator_pits_and_breezes')
+
+    return axiom_str
+    """
+    for (a,b) in [((x-1),y),(x,(y-1)),((x+1),y),(x,(y+1))]:
+        if a >= xmin and a <= xmax:
+            if b >= ymin and b <= ymax:
+                pits.append(pit_str(a,b))
+
+    pits.append('P'+str(x)+'_'+str(y))
+    axiom_str += '{0} <=> ({1})'.format(breeze_str(x,y),(' | ').join(pits))
     return axiom_str
 
 def generate_pit_and_breeze_axioms(xmin, xmax, ymin, ymax):
@@ -213,6 +243,13 @@ def axiom_generator_wumpus_and_stench(x, y, xmin, xmax, ymin, ymax):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    wumpus = []
+    for (a,b) in [((x-1),y),(x,(y-1)),((x+1),y),(x,(y+1))]:
+        if a >= xmin and a <= xmax:
+            if b >= ymin and b <= ymax:
+                wumpus.append(wumpus_str(a,b))
+    wumpus.append('W'+str(x)+'_'+str(y))
+    axiom_str = '{0} <=> ({1})'.format(stench_str(x, y), (' | ').join(wumpus))
     return axiom_str
 
 def generate_wumpus_and_stench_axioms(xmin, xmax, ymin, ymax):
@@ -233,7 +270,12 @@ def axiom_generator_at_least_one_wumpus(xmin, xmax, ymin, ymax):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    rooms = []
+    for a in range(xmin,xmax + 1):
+        for b in range(ymin,ymax + 1)]:
+            rooms = [wumpus_str(a,b)]
+    axiom_str = ' | '.join(rooms)
+    #utils.print_not_implemented()
     return axiom_str
 
 def axiom_generator_at_most_one_wumpus(xmin, xmax, ymin, ymax):
