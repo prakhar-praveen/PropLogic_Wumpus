@@ -1,2 +1,2 @@
 # PropLogic_Wumpus
-Homework 3 using propositional logic-based agent
+Please don't plagiarize. For Reference only.
